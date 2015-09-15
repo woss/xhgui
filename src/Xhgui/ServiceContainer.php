@@ -37,8 +37,12 @@ class Xhgui_ServiceContainer extends Pimple
                 'cache' => $cacheDir,
                 'auto_reload' => true,
                 'strict_variables' => false,
-                'autoescape' => true
+                'autoescape' => true,
             );
+            if( isset($c['config']['debug']) )
+            {
+                $view->parserOptions = array_merge($view->parserOptions,array('debug' => true));
+            }
 
             return $view;
         };
@@ -55,9 +59,14 @@ class Xhgui_ServiceContainer extends Pimple
             $app->add(new Xhgui_Middleware_Render());
 
             $view = $c['view'];
+            if( isset($c['config']['debug']) )
+            {
+                $view->parserExtensions = array_merge($view->parserExtensions,array(new Twig_Extension_Debug()));
+            }
             $view->parserExtensions = array(
                 new Xhgui_Twig_Extension($app)
             );
+
             $app->view($view);
 
             return $app;
