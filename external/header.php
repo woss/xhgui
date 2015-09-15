@@ -34,7 +34,7 @@
 /* uprofiler support
  * The uprofiler extension is a fork of xhprof.  See: https://github.com/FriendsOfPHP/uprofiler
  *
- * The two extensions are very similar, and this script will use the uprofiler extension if it is loaded, 
+ * The two extensions are very similar, and this script will use the uprofiler extension if it is loaded,
  * or the xhprof extension if not.  At least one of these extensions must be present.
  *
  * The UPROFILER_* constants mirror the XHPROF_* ones exactly, with one additional constant available:
@@ -100,6 +100,9 @@ register_shutdown_function(
         ignore_user_abort(true);
         flush();
 
+        // Get HTTP_RESPONSE_CODE
+        $http_response_code - http_response_code();
+        
         if (!defined('XHGUI_ROOT_DIR')) {
             require dirname(dirname(__FILE__)) . '/src/bootstrap.php';
         }
@@ -137,6 +140,9 @@ register_shutdown_function(
             'request_ts' => $requestTs,
             'request_ts_micro' => $requestTsMicro,
             'request_date' => date('Y-m-d', $time),
+            'http' => array(
+              'response_code' => (integer) $http_response_code
+            ),
         );
 
         try {

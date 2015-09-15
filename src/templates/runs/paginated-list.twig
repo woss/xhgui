@@ -48,7 +48,7 @@
             {% endif %}
             <td>
               <a href="{{ url('run.view', {'id': result.id|trim }) }}">
-                {{result.meta('SERVER.REQUEST_METHOD')}}
+                {{result.meta('SERVER.REQUEST_METHOD')}} / {{result.meta('http.response_code')}}
               </a>
             </td>
             <td>
